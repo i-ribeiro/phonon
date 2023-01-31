@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Winter, 2023
-* Author: TO_DO
+* Author: Hilary Johnson, Isaac ribeiro
 * Professors: Paulo Sousa
 ************************************************************
 
@@ -68,7 +68,7 @@
 ***********************************************************
 * Function name: main
 * Purpose: Main function
-* Author: Paulo Sousa
+* Author: Hilary Johnson, Isaac ribeiro
 * History/Versions: Ver F22
 * Called functions: mainReader(), mainScanner(), mainParser()
 * Parameters: Command line arguments - argc, argv
@@ -121,8 +121,8 @@ phonon_intg main(int argc, char** argv) {
 /*
 ***********************************************************
 * Function name: printLogo
-* Purpose: pRINT lOGO
-* Author: Paulo Sousa
+* Purpose: Print logo
+* Author: Hilary Johnson, Isaac ribeiro
 * History/Versions: Ver F22
 * Called functions: -
 * Parameters: -

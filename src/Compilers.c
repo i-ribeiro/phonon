@@ -2,17 +2,17 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Winter, 2023
-* Author: TO_DO
+* Author: Hilary Johnson, Isaac ribeiro
 * Professors: Paulo Sousa
 ************************************************************
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@                                                               @@@@
-@@          /       ==============================        /          @@
-@         ////           @@       @@ #@                  ////         @
-@         ////*          @@ @%  @ @@    @@  @ #@#       /////         @
-@     ((( ////))))   @@  @% @%  @ @@ #@ @@  @ #@@#   ///////( ///     @
-@     ((((,/ )))))    @@@@   @@@  @@ ##  @@@   #@#   ///// ,/////     @
+@@          /        ==============================        /         @@
+@         ////     @@@@@ @@    @@@@@ @@@@@ @@@@@ @@@@@    ////        @
+@         ////*    @@ @@ @@    @@ @@ @@ @@ @@ @@ @@ @@   /////        @
+@     ((( ////)))) @@@@@ @@@@@ @@ @@ @@ @@ @@ @@ @@ @@///////( ///    @
+@     ((((, / )))))@@    @@ @@ @@@@@ @@ @@ @@@@@ @@ @@///// ,/////    @
 @     (((((/)))((    ------------------------------    ((((./////*    @
 @    //*./ /  .///   ---  PROGRAMMING LANGUAGE  ---  ////   / ( (//   @
 @    ///// / /////   ==============================  * ////* / ////   @
@@ -38,7 +38,7 @@
 ************************************************************
 * File name: compilers.c
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12, A22, A32.
 * Date: Jan 01 2023
 * Professor: Paulo Sousa
@@ -68,7 +68,7 @@
 ***********************************************************
 * Function name: main
 * Purpose: Main function
-* Author: Paulo Sousa
+* Author: Hilary Johnson, Isaac ribeiro
 * History/Versions: Ver F22
 * Called functions: mainReader(), mainScanner(), mainParser()
 * Parameters: Command line arguments - argc, argv
@@ -77,9 +77,9 @@
 *************************************************************
 */
 
-julius_intg main(int argc, char** argv) {
-	julius_intg i;
-	julius_char option;
+phonon_intg main(int argc, char** argv) {
+	phonon_intg  i;
+	phonon_char option;
 	printLogo();
 	if (DEBUG) {
 		for (i = 0; i < argc; ++i)
@@ -121,8 +121,8 @@ julius_intg main(int argc, char** argv) {
 /*
 ***********************************************************
 * Function name: printLogo
-* Purpose: pRINT lOGO
-* Author: Paulo Sousa
+* Purpose: Print logo
+* Author: Hilary Johnson, Isaac ribeiro
 * History/Versions: Ver F22
 * Called functions: -
 * Parameters: -
@@ -130,15 +130,15 @@ julius_intg main(int argc, char** argv) {
 * Algorithm: -
 *************************************************************
 */
-julius_void printLogo() {
+phonon_void printLogo() {
 	printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
 		"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n",
 		"@@@@                                                               @@@@\n",
 		"@@          /        ==============================        /         @@\n",
-		"@         ////           @@       @@  #@                  ////        @\n",
-		"@         ////*          @@ @%  @ @@     @@  @ #@#       /////        @\n",
-		"@     ((( ////))))   @@  @% @%  @ @@  #@ @@  @ #@@#   ///////( ///    @\n",
-		"@     ((((, / )))))   @@@@   @@@  @@  ##  @@@   #@#   ///// ,/////    @\n",
+		"@         ////     @@@@@ @@    @@@@@ @@@@@ @@@@@ @@@@@    ////        @\n",
+		"@         ////*    @@ @@ @@    @@ @@ @@ @@ @@ @@ @@ @@   /////        @\n",
+		"@     ((( ////)))) @@@@@ @@@@@ @@ @@ @@ @@ @@ @@ @@ @@///////( ///    @\n",
+		"@     ((((, / )))))@@    @@ @@ @@@@@ @@ @@ @@@@@ @@ @@///// ,/////    @\n",
 		"@     (((((/ )))((   ==============================   ((((./////*     @\n",
 		"@   *//*./ /  .///   ===  PROGRAMMING LANGUAGE  ===  ////   / ( (//   @\n",
 		"@    ///// / /////   ==============================  *////* / ////    @\n",

@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Winter, 2023
-* Author: TO_DO
+* Author: Isaac Ribeiro, Hilary Johnson
 * Professors: Paulo Sousa
 ************************************************************
 
@@ -38,7 +38,7 @@
 ************************************************************
 * File name: Compilers.h
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12, A22, A32.
 * Date: Jan 01 2023
 * Professor: Paulo Sousa
@@ -62,8 +62,8 @@
  */
  
 /* Logical constants - adapt for your language */
-#define JULIUS_TRUE  1
-#define JULIUS_FALSE 0
+#define PHONON_TRUE  1
+#define PHONON_FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -73,17 +73,16 @@ NOTE: Some types may not be directly used by your language,
 ------------------------------------------------------------
 */
 
-/* TO_DO: Define your typedefs */
-typedef void			julius_void;
-typedef char			julius_char;
-typedef int				julius_intg;
-typedef float			julius_real;
+typedef void			phonon_void;
+typedef char			phonon_char;
+typedef int				phonon_intg;
+typedef float			phonon_real;
 
-typedef unsigned char	julius_boln;
-typedef unsigned char	julius_byte;
+typedef unsigned char	phonon_boln;
+typedef unsigned char	phonon_byte;
 
-typedef long			julius_long;
-typedef double			julius_doub;
+typedef long			phonon_long;
+typedef double			phonon_doub;
 
 /*
 ------------------------------------------------------------
@@ -105,11 +104,11 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-julius_intg mainReader(julius_intg argc, julius_char** argv);
+phonon_intg mainReader(phonon_intg argc, phonon_char** argv);
 /*
 julius_intg mainScanner(julius_intg argc, julius_char** argv);
 julius_intg mainParser(julius_intg argc, julius_char** argv);
 */
-julius_void printLogo();
+phonon_void printLogo();
 
 #endif

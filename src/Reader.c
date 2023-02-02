@@ -491,8 +491,20 @@ phonon_boln readerRetract(ReaderPointer const readerPointer) {
 *************************************************************
 */
 phonon_boln readerRestore(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Restore positions (read/mark) */
+	
+	// guard against nullptr
+	if (!readerPointer)
+		return PHONON_FALSE;
+
+	phonon_intg const mark = readerPointer->position.mark;
+
+	// guard against mark out of bounds
+	if (mark < 0 || mark >= readerPointer->size)
+		return PHONON_FALSE;
+
+	/* Restore positions (read/mark) */
+	readerPointer->position.read = readerPointer->position.mark;
+
 	return PHONON_TRUE;
 }
 

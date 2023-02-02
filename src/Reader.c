@@ -223,7 +223,20 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, phonon_char ch) {
 */
 phonon_boln readerClear(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return PHONON_FALSE;
 	/* TO_DO: Adjust flags original */
+	readerPointer->content = 0;
+	readerPointer->flags = READER_EMP;
+	readerPointer->position.mark= 0;
+	readerPointer->position.read= 0;
+	readerPointer->position.wrte= 0;
+
+	for  (int i=0; i< NCHAR; i++){
+		readerPointer->histogram[i] = 0;
+	}
+	readerPointer->numReaderErrors=0;
+
 	return PHONON_TRUE;
 }
 

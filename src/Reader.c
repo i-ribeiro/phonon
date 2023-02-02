@@ -286,8 +286,13 @@ phonon_boln readerFree(ReaderPointer const readerPointer) {
 */
 phonon_boln readerIsFull(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+		if (!readerPointer)
+		return PHONON_FALSE;
+
 	/* TO_DO: Check flag if buffer is FUL */
-	return PHONON_FALSE;
+
+	return (phonon_boln) (readerPointer->flags & READER_FULL);
+
 }
 
 

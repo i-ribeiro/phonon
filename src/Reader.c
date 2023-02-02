@@ -95,7 +95,7 @@ ReaderPointer readerCreate(phonon_intg size, phonon_intg increment, phonon_intg 
 		mode = MODE_FIXED;
 	}
 	
-	if(mode != 'F' || 'A' || 'M'){
+	if( (mode != MODE_FIXED) && (mode != MODE_ADDIT) && (mode != MODE_MULTI) ){
 		return NULL;
 	}
 		
@@ -107,15 +107,17 @@ ReaderPointer readerCreate(phonon_intg size, phonon_intg increment, phonon_intg 
 	
 
 	readerPointer->content = (phonon_char*)malloc(size);
-	/* TO_DO: Defensive programming */
-	for  (int i=0; i< NCHAR; i++){
-		readerPointer->histogram[i] = 0;
-	}/* TO_DO: Initialize the histogram */
+
+	// check allocation
+	if (!readerPointer->content)
+		return NULL;
 	
 	readerPointer->size = size;
 	readerPointer->increment = increment;
 	readerPointer->mode = mode;
-	readerPointer->flags = READER_EMP; /* TO_DO: Initialize flags *//* TO_DO: The created flag must be signalized as EMP */
+
+	// initialize position, histogram, flags, errors
+	readerClear(readerPointer);
 	
 	//readerPointer->flags |= READER_DEFAULT_FLAG
 	return readerPointer;
@@ -226,7 +228,6 @@ phonon_boln readerClear(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return PHONON_FALSE;
 	/* TO_DO: Adjust flags original */
-	readerPointer->content = 0;
 	readerPointer->flags = READER_EMP;
 	readerPointer->position.mark= 0;
 	readerPointer->position.read= 0;
@@ -236,6 +237,8 @@ phonon_boln readerClear(ReaderPointer const readerPointer) {
 		readerPointer->histogram[i] = 0;
 	}
 	readerPointer->numReaderErrors=0;
+
+	readerPointer->content[0] = '\0';
 
 	return PHONON_TRUE;
 }
@@ -286,13 +289,15 @@ phonon_boln readerFree(ReaderPointer const readerPointer) {
 */
 phonon_boln readerIsFull(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-		if (!readerPointer)
+	if (!readerPointer)
 		return PHONON_FALSE;
 
 	/* TO_DO: Check flag if buffer is FUL */
 
-	return (phonon_boln) (readerPointer->flags & READER_FULL);
+	if ((phonon_boln) (readerPointer->flags & READER_FULL))
+		return PHONON_TRUE;
 
+	return PHONON_FALSE;
 }
 
 
@@ -313,7 +318,10 @@ phonon_boln readerIsEmpty(ReaderPointer const readerPointer) {
 		return PHONON_TRUE;
 
 	// return true if Full flag is not set
-	return ! (phonon_boln) (READER_FULL & readerPointer->flags);
+	if ((phonon_boln)(READER_FULL & readerPointer->flags))
+		return PHONON_TRUE;
+
+	return PHONON_FALSE;
 }
 
 /*
@@ -333,7 +341,7 @@ phonon_boln readerIsEmpty(ReaderPointer const readerPointer) {
 */
 phonon_boln readerSetMark(ReaderPointer const readerPointer, phonon_intg mark) {
 	/* TO_DO: Defensive programming */
-	if (!readerPointer || mark<0 || mark > readerPointer->position.wrte)
+	if (!readerPointer || mark<0 || mark >= readerPointer->position.wrte)
 		return PHONON_FALSE;
 	/* TO_DO: Adjust mark */
 	readerPointer->position.mark = mark;
@@ -397,9 +405,8 @@ phonon_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescri
 	phonon_char c;
 	/* TO_DO: Defensive programming */
 
-	if (!(readerPointer) || feof(fileDescriptor)){
+	if (!(readerPointer) || !fileDescriptor || feof(fileDescriptor))
 		return PHONON_FALSE;
-	}
 	
 	c = (phonon_char)fgetc(fileDescriptor);
 	while (!feof(fileDescriptor)) {

@@ -299,16 +299,16 @@ phonon_boln readerIsFull(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 phonon_boln readerIsEmpty(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Check flag if buffer is EMP */
-	return PHONON_FALSE;
+
+	// default to reader empty if readerPointer is null
+	if (!readerPointer)
+		return PHONON_TRUE;
+
+	// return true if Full flag is not set
+	return !(READER_FULL & readerPointer->flags);
 }
 
 /*

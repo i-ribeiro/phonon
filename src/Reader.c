@@ -396,6 +396,11 @@ phonon_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescri
 	phonon_intg size = 0;
 	phonon_char c;
 	/* TO_DO: Defensive programming */
+
+	if (!(readerPointer) || feof(fileDescriptor)){
+		return PHONON_FALSE;
+	}
+	
 	c = (phonon_char)fgetc(fileDescriptor);
 	while (!feof(fileDescriptor)) {
 		if (!readerAddChar(readerPointer, c)) {
@@ -407,6 +412,7 @@ phonon_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescri
 	}
 	/* TO_DO: Defensive programming */
 	return size;
+	
 }
 
 
@@ -447,6 +453,14 @@ phonon_boln readerRecover(ReaderPointer const readerPointer) {
 */
 phonon_boln readerRetract(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if(!readerPointer){
+		return PHONON_FALSE;
+	}
+	if(readerPointer->position.read <= 0 ){
+		return PHONON_FALSE;
+	}
+	readerPointer->position.read -= 1;
+	
 	/* TO_DO: Retract (return 1 pos read) */
 	return PHONON_TRUE;
 }

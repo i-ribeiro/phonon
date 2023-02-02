@@ -438,8 +438,15 @@ phonon_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescri
 *************************************************************
 */
 phonon_boln readerRecover(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Recover positions */
+
+	// guard against nullptr
+	if (!readerPointer)
+		return PHONON_FALSE;
+
+	/* Recover positions */
+	readerPointer->position.read = 0;
+	readerPointer->position.mark = 0;
+
 	return PHONON_TRUE;
 }
 
@@ -481,10 +488,6 @@ phonon_boln readerRetract(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 phonon_boln readerRestore(ReaderPointer const readerPointer) {

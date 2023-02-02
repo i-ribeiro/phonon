@@ -699,7 +699,10 @@ phonon_intg readerGetInc(ReaderPointer const readerPointer) {
 phonon_intg readerGetMode(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return mode */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+
+	return readerPointer->mode;
 }
 
 

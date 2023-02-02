@@ -729,7 +729,10 @@ phonon_intg readerGetMode(ReaderPointer const readerPointer) {
 phonon_byte readerGetFlags(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return flags */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+
+	return readerPointer->flags;
 }
 
 

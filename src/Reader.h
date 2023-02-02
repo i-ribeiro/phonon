@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Winter, 2023
-* Author: TO_DO
+* Author: Isaac Ribeiro, Hilary Johnson
 * Professors: Paulo Sousa
 ************************************************************
 
@@ -92,11 +92,11 @@ enum READER_MODE {
 
 /* Add your bit-masks constant definitions here - Defined for BOA */
 /* BITS                                (7654.3210) */
-#define READER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
-/* TO_DO: BIT 7: FUL = Full */
-/* TO_DO: BIT 6: EMP: Empty */
-/* TO_DO: BIT 5: REL = Relocation */
-/* TO_DO: BIT 4: END = EndOfBuffer */
+#define READER_DEFAULT_FLAG	0b0		 	/* (0000.0000)_2 = (000)_10 */
+#define READER_FULL			0b10000000
+#define READER_EMP			0b01000000
+#define READER_REL			0b00100000
+#define READER_END			0b00010000
 
 #define NCHAR				128			/* Chars from 0 to 127 */
 
@@ -106,48 +106,48 @@ enum READER_MODE {
 
 /* Offset declaration */
 typedef struct position {
-	julius_intg mark;			/* the offset to the mark position (in chars) */
-	julius_intg read;			/* the offset to the get a char position (in chars) */
-	julius_intg wrte;			/* the offset to the add chars (in chars) */
+	phonon_intg mark;			/* the offset to the mark position (in chars) */
+	phonon_intg read;			/* the offset to the get a char position (in chars) */
+	phonon_intg wrte;			/* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
 typedef struct bufferReader {
-	julius_char*	content;			/* pointer to the beginning of character array (character buffer) */
-	julius_intg		size;				/* current dynamic memory size (in bytes) allocated to character buffer */
-	julius_intg		increment;			/* character array increment factor */
-	julius_intg		mode;				/* operational mode indicator */
-	julius_byte		flags;				/* contains character array reallocation flag and end-of-buffer flag */
+	phonon_char*	content;			/* pointer to the beginning of character array (character buffer) */
+	phonon_intg		size;				/* current dynamic memory size (in bytes) allocated to character buffer */
+	phonon_intg		increment;			/* character array increment factor */
+	phonon_intg		mode;				/* operational mode indicator */
+	phonon_byte		flags;				/* contains character array reallocation flag and end-of-buffer flag */
 	Position		position;			/* Offset / position field */
-	julius_intg		histogram[NCHAR];	/* Statistics of chars */
-	julius_intg		numReaderErrors;	/* Number of errors from Reader */
+	phonon_intg		histogram[NCHAR];	/* Statistics of chars */
+	phonon_intg		numReaderErrors;	/* Number of errors from Reader */
 } BufferReader, * ReaderPointer;
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-ReaderPointer	readerCreate		(julius_intg, julius_intg, julius_intg);
-ReaderPointer	readerAddChar		(ReaderPointer const, julius_char);
-julius_boln		readerClear		    (ReaderPointer const);
-julius_boln		readerFree		    (ReaderPointer const);
-julius_boln		readerIsFull		(ReaderPointer const);
-julius_boln		readerIsEmpty		(ReaderPointer const);
-julius_boln		readerSetMark		(ReaderPointer const, julius_intg);
-julius_intg		readerPrint		    (ReaderPointer const);
-julius_intg		readerLoad			(ReaderPointer const, FILE* const);
-julius_boln		readerRecover		(ReaderPointer const);
-julius_boln		readerRetract		(ReaderPointer const);
-julius_boln		readerRestore		(ReaderPointer const);
+ReaderPointer	readerCreate		(phonon_intg, phonon_intg, phonon_intg);
+ReaderPointer	readerAddChar		(ReaderPointer const, phonon_char);
+phonon_boln		readerClear		    (ReaderPointer const);
+phonon_boln		readerFree		    (ReaderPointer const);
+phonon_boln		readerIsFull		(ReaderPointer const);
+phonon_boln		readerIsEmpty		(ReaderPointer const);
+phonon_boln		readerSetMark		(ReaderPointer const, phonon_intg);
+phonon_intg		readerPrint		    (ReaderPointer const);
+phonon_intg		readerLoad			(ReaderPointer const, FILE* const);
+phonon_boln		readerRecover		(ReaderPointer const);
+phonon_boln		readerRetract		(ReaderPointer const);
+phonon_boln		readerRestore		(ReaderPointer const);
 /* Getters */
-julius_char		readerGetChar		(ReaderPointer const);
-julius_char*	readerGetContent	(ReaderPointer const, julius_intg);
-julius_intg		readerGetPosRead	(ReaderPointer const);
-julius_intg		readerGetPosWrte	(ReaderPointer const);
-julius_intg		readerGetPosMark	(ReaderPointer const);
-julius_intg		readerGetSize		(ReaderPointer const);
-julius_intg		readerGetInc		(ReaderPointer const);
-julius_intg		readerGetMode		(ReaderPointer const);
-julius_byte		readerGetFlags		(ReaderPointer const);
-julius_intg		readerShowStat		(ReaderPointer const);
-julius_intg		readerNumErrors		(ReaderPointer const);
+phonon_char		readerGetChar		(ReaderPointer const);
+phonon_char*	readerGetContent	(ReaderPointer const, phonon_intg);
+phonon_intg		readerGetPosRead	(ReaderPointer const);
+phonon_intg		readerGetPosWrte	(ReaderPointer const);
+phonon_intg		readerGetPosMark	(ReaderPointer const);
+phonon_intg		readerGetSize		(ReaderPointer const);
+phonon_intg		readerGetInc		(ReaderPointer const);
+phonon_intg		readerGetMode		(ReaderPointer const);
+phonon_byte		readerGetFlags		(ReaderPointer const);
+phonon_intg		readerShowStat		(ReaderPointer const);
+phonon_intg		readerNumErrors		(ReaderPointer const);
 
 #endif

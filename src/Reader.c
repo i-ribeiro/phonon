@@ -630,7 +630,10 @@ phonon_intg readerGetPosMark(ReaderPointer const readerPointer) {
 phonon_intg readerGetSize(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return size */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+
+	return readerPointer->size;
 }
 
 /*

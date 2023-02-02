@@ -559,7 +559,7 @@ phonon_intg readerGetPosRead(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	
 	if (!readerPointer)
-		return PHONON_FALSE;
+		return READER_ERROR;
 	/* TO_DO: Return read */
 	return readerPointer->position.read;
 }
@@ -583,8 +583,8 @@ phonon_intg readerGetPosWrte(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return wrte */
 	if (!readerPointer)
-		return PHONON_FALSE;
-	/* TO_DO: Return read */
+		return READER_ERROR;
+
 	return readerPointer->position.wrte;
 }
 
@@ -606,7 +606,10 @@ phonon_intg readerGetPosWrte(ReaderPointer const readerPointer) {
 phonon_intg readerGetPosMark(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return mark */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+
+	return readerPointer->position.mark;
 }
 
 

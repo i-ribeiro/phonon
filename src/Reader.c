@@ -308,7 +308,7 @@ phonon_boln readerIsEmpty(ReaderPointer const readerPointer) {
 		return PHONON_TRUE;
 
 	// return true if Full flag is not set
-	return !(READER_FULL & readerPointer->flags);
+	return ! (phonon_boln) (READER_FULL & readerPointer->flags);
 }
 
 /*

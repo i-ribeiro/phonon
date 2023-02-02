@@ -84,23 +84,40 @@
 
 ReaderPointer readerCreate(phonon_intg size, phonon_intg increment, phonon_intg mode) {
 	ReaderPointer readerPointer;
+
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Adjust the values according to parameters */
-	size = READER_DEFAULT_SIZE;
-	increment = READER_DEFAULT_INCREMENT;
-	mode = MODE_FIXED;
+	if(size <= 0 ){
+		size = READER_DEFAULT_SIZE;
+		increment = READER_DEFAULT_INCREMENT;
+	}
+	if(increment <= 0){
+		mode = MODE_FIXED;
+	}
+	
+	if(mode != 'F' || 'A' || 'M'){
+		return NULL;
+	}
+		
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
 	if (!readerPointer)
 		return NULL;
+	//ASK PROFESSOR
+	
+
 	readerPointer->content = (phonon_char*)malloc(size);
 	/* TO_DO: Defensive programming */
-	/* TO_DO: Initialize the histogram */
+	for  (int i=0; i< NCHAR; i++){
+		readerPointer->histogram[i] = 0;
+	}/* TO_DO: Initialize the histogram */
+	
 	readerPointer->size = size;
 	readerPointer->increment = increment;
 	readerPointer->mode = mode;
-	/* TO_DO: Initialize flags */
-	/* TO_DO: The created flag must be signalized as EMP */
+	readerPointer->flags = READER_EMP; /* TO_DO: Initialize flags *//* TO_DO: The created flag must be signalized as EMP */
+	
+	//readerPointer->flags |= READER_DEFAULT_FLAG
 	return readerPointer;
 }
 

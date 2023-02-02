@@ -242,10 +242,18 @@ phonon_boln readerClear(ReaderPointer const readerPointer) {
 *************************************************************
 */
 phonon_boln readerFree(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
+
+	// cannot free if readerPointer is null
 	if (!readerPointer)
 		return PHONON_FALSE;
-	/* TO_DO: Free pointers */
+
+	/* Free pointers */
+
+	if (readerPointer->content)
+		free(readerPointer->content);
+
+	free(readerPointer);
+
 	return PHONON_TRUE;
 }
 

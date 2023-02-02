@@ -114,44 +114,79 @@ ReaderPointer readerCreate(phonon_intg size, phonon_intg increment, phonon_intg 
 *   ch = char to be added
 * Return value:
 *	readerPointer (pointer to Buffer Reader)
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 
 ReaderPointer readerAddChar(ReaderPointer const readerPointer, phonon_char ch) {
 	phonon_char* tempReader = NULL;
 	phonon_intg newSize = 0;
-	/* TO_DO: Defensive programming: check buffer and valid char (increment numReaderErrors) */
-	/* TO_DO: Reset Realocation */
-	/* TO_DO: Test the inclusion of chars */
+
+	// guard against null reader pointer
+	if (!readerPointer) return NULL;
+
+	// char must be in 0..127 range
+	if (ch < 0 || ch > NCHAR - 1) {
+
+		readerPointer->numReaderErrors++;
+		return NULL;
+	}
+
+	// set Rel flag since relocation is possible
+	readerPointer->flags &= ~READER_REL;
+
 	if (readerPointer->position.wrte * (phonon_intg)sizeof(phonon_char) < readerPointer->size) {
-		/* TO_DO: This buffer is NOT full */
+		// This buffer is NOT full
+		readerPointer->flags &= ~READER_FULL;
 	} else {
-		/* TO_DO: Reset Full flag */
+
+		/* Reader is full, set flag */
+		readerPointer->flags |= READER_FULL;
+
 		switch (readerPointer->mode) {
 		case MODE_FIXED:
+			/* Do not try to reallocate if mode is FIXED */
 			return NULL;
 		case MODE_ADDIT:
-			/* TO_DO: Adjust new size */
-			/* TO_DO: Defensive programming */
+			/* Adjust new size */
+			newSize = readerPointer->size + readerPointer->increment;
 			break;
 		case MODE_MULTI:
-			/* TO_DO: Adjust new size */
-			/* TO_DO: Defensive programming */
+			/* Adjust new size */
+			newSize = readerPointer->size * readerPointer->increment;
 			break;
 		default:
 			return NULL;
 		}
-		/* TO_DO: New reader allocation */
-		/* TO_DO: Defensive programming */
-		/* TO_DO: Check Relocation */
+
+		// no inclusion can be done if newSize is negative or exceeds max reader size
+		if (newSize <= 0 || newSize >= READER_MAX_SIZE)
+			return NULL;
+
+		/* New reader allocation */
+		tempReader = (phonon_char*) realloc(readerPointer->content, newSize);
+
+		/* Check Reallocation */
+		if (!tempReader)
+			return NULL;
+
+		/* Set reallocation flag if content pointer has changed */
+		if (tempReader != readerPointer->content)
+			readerPointer->flags |= READER_REL;
+
+		/* Reallocation successful; commit new ptr and size */
+		readerPointer->content = tempReader;
+		readerPointer->size = newSize;
+
+		// unset Full flag
+		readerPointer->flags &= ~READER_FULL;
 	}
-	/* TO_DO: Add the char */
+
+	/* Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
-	/* TO_DO: Updates histogram */
+
+	/* Update histogram */
+	readerPointer->histogram[ch]++;
+
 	return readerPointer;
 }
 

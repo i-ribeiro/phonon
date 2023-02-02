@@ -149,5 +149,7 @@ phonon_intg		readerGetMode		(ReaderPointer const);
 phonon_byte		readerGetFlags		(ReaderPointer const);
 phonon_intg		readerShowStat		(ReaderPointer const);
 phonon_intg		readerNumErrors		(ReaderPointer const);
+/* Utility */
+phonon_boln		charValid			(phonon_char const);
 
 #endif

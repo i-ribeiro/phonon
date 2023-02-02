@@ -142,7 +142,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, phonon_char ch) {
 	if (!readerPointer) return NULL;
 
 	// char must be in 0..127 range
-	if (ch < 0 || ch > NCHAR - 1) {
+	if ( !charValid(ch) ) {
 
 		readerPointer->numReaderErrors++;
 		return NULL;
@@ -349,22 +349,29 @@ phonon_boln readerSetMark(ReaderPointer const readerPointer, phonon_intg mark) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Number of chars printed.
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 phonon_intg readerPrint(ReaderPointer const readerPointer) {
 	phonon_intg cont = 0;
 	phonon_char c;
-	/* TO_DO: Defensive programming (including invalid chars) */
-	c = readerGetChar(readerPointer);
-	/* TO_DO: Check flag if buffer EOB has achieved */
+
+	// guard against nullptr to reader
+	if (!readerPointer)
+		return PHONON_FALSE;
+
+	/* iterate buffer */
 	while (cont < readerPointer->position.wrte) {
-		cont++;
+
+		// end loop if EOB reached
+		if (READER_END & readerPointer->flags)
+			break;
+
+		// end loop if invalid char encountered
+		if ( charValid(c = readerGetChar(readerPointer)) )
+			break;
+
 		printf("%c", c);
-		c = readerGetChar(readerPointer);
+		cont++;
 	}
 	return cont;
 }
@@ -694,4 +701,20 @@ phonon_intg readerNumErrors(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Updates the histogram */
 	return 0;
+}
+
+/*
+***********************************************************
+* Function name: charValid
+* Purpose:	Returns PHONON_TRUE if a given char is valid and
+			PHONON_FALSE if invalid.
+* Parameters:
+*	ch = char to test
+* Return value:
+*	Whether or not the char is valid (T/F)
+***********************************************************
+*/
+phonon_boln charValid(phonon_char const ch) {
+
+	return (phonon_boln)(ch >= 0 && ch < NCHAR);
 }

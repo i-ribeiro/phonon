@@ -557,8 +557,11 @@ phonon_char* readerGetContent(ReaderPointer const readerPointer, phonon_intg pos
 */
 phonon_intg readerGetPosRead(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	
+	if (!readerPointer)
+		return PHONON_FALSE;
 	/* TO_DO: Return read */
-	return 0;
+	return readerPointer->position.read;
 }
 
 

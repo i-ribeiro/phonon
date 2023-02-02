@@ -653,7 +653,10 @@ phonon_intg readerGetSize(ReaderPointer const readerPointer) {
 phonon_intg readerGetInc(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return increment */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+
+	return readerPointer->increment;
 }
 
 /*

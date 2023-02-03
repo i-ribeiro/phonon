@@ -32,10 +32,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-project ("JuliusCompiler")
+project ("PhononCompiler")
 
 # Add source to this project's executable: check name and dependences
-add_executable (JuliusCompiler
+add_executable (PhononCompiler
 	"Compilers.h"	"Compilers.c"
 	"Reader.h"		"Reader.c"		"MainReader.c"
 #"		"Scanner.c"		"MainScanner.c"

@@ -375,7 +375,7 @@ phonon_intg readerPrint(ReaderPointer const readerPointer) {
 			break;
 
 		// end loop if invalid char encountered
-		if ( charValid(c = readerGetChar(readerPointer)) )
+		if ( !charValid(c = readerGetChar(readerPointer)) )
 	    	break;
 
 		printf("%c", c);
@@ -799,5 +799,8 @@ phonon_intg readerNumErrors(ReaderPointer const readerPointer) {
 */
 phonon_boln charValid(phonon_char const ch) {
 
-	return (phonon_boln)(ch >= 0 && ch < NCHAR);
+	if (ch >= 0 && ch < NCHAR)
+		return PHONON_TRUE;
+
+	return PHONON_FALSE;
 }

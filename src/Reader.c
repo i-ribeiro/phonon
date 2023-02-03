@@ -203,6 +203,9 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, phonon_char ch) {
 	/* Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 
+	/* Unset Empty flag */
+	readerPointer->flags &= ~READER_EMP;
+
 	/* Update histogram */
 	readerPointer->histogram[ch]++;
 

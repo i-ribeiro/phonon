@@ -241,7 +241,7 @@ phonon_boln readerClear(ReaderPointer const readerPointer) {
 	}
 	readerPointer->numReaderErrors=0;
 
-	readerPointer->content[0] = '\0';
+	readerPointer->content[0] = READER_TERMINATOR;
 
 	return PHONON_TRUE;
 }
@@ -320,8 +320,8 @@ phonon_boln readerIsEmpty(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return PHONON_TRUE;
 
-	// return true if Full flag is not set
-	if ((phonon_boln)(READER_FULL & readerPointer->flags))
+	// return true if EMPty flag is set
+	if (READER_EMP & readerPointer->flags)
 		return PHONON_TRUE;
 
 	return PHONON_FALSE;
@@ -366,9 +366,10 @@ phonon_intg readerPrint(ReaderPointer const readerPointer) {
 	phonon_intg cont = 0;
 	phonon_char c;
 
-	// guard against nullptr to reader
-	if (!readerPointer)
-		return PHONON_FALSE;
+	
+	if (!readerPointer						// guard against nullptr to reader
+		|| readerIsEmpty(readerPointer))	// and empty buffer
+		return 0;
 
 	/* iterate buffer */
 	while (cont < readerPointer->position.wrte) {
@@ -528,6 +529,7 @@ phonon_char readerGetChar(ReaderPointer const readerPointer) {
 	// guard against...
 	if (!readerPointer							// ...nullptr
 		|| !readerPointer->content				// ...^
+		|| readerIsEmpty(readerPointer)			// ...empty reader
 		|| readerPointer->position.read < 0		// ...below lower bound
 		|| readerPointer->position.read			// ...above upper bound
 			> readerPointer->size)
@@ -758,6 +760,10 @@ phonon_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Updates the histogram */
 	if (!readerPointer)
 		return READER_ERROR;
+
+	// early out if reader is empty
+	if (readerIsEmpty(readerPointer))
+		return 0;
 
 	phonon_intg histogramTotal = 0;
 	for  (int i=0; i< NCHAR; i++){

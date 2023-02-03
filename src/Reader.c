@@ -518,18 +518,29 @@ phonon_boln readerRestore(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Char in the getC position.
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 phonon_char readerGetChar(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Check condition to read/wrte */
-	/* TO_DO: Set EOB flag */
-	/* TO_DO: Reset EOB flag */
-	return readerPointer->content[readerPointer->position.read++];
+
+	// guard against...
+	if (!readerPointer							// ...nullptr
+		|| !readerPointer->content				// ...^
+		|| readerPointer->position.read < 0		// ...below lower bound
+		|| readerPointer->position.read)		// ...above upper bound
+		return (phonon_char) READER_ERROR;
+
+	// set EOB flag and return terminator if read meets or exceeds write
+	if (readerPointer->position.read >= readerPointer->position.wrte) {
+
+		readerPointer->flags |= READER_END;
+		return READER_TERMINATOR;
+	}
+
+	// reset EOB flag
+	readerPointer->flags &= ~READER_END;
+
+	// return char and increment read position
+	return readerPointer->content[ readerPointer->position.read++ ];
 }
 
 

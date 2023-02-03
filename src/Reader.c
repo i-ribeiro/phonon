@@ -553,16 +553,19 @@ phonon_char readerGetChar(ReaderPointer const readerPointer) {
 *   pos = position to get the pointer
 * Return value:
 *	Position of string char.
-* TO_DO:
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Adjust for your LANGUAGE.
 *************************************************************
 */
 phonon_char* readerGetContent(ReaderPointer const readerPointer, phonon_intg pos) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return content (string) */
-	return NULL;
+
+	// guard against...
+	if (!readerPointer							// ...nullptr
+		|| !readerPointer->content				// ...^
+		|| pos < 0								// pos below lower bound
+		|| pos >= readerPointer->position.wrte)	// pos above upper bound
+		return NULL;
+
+	// return content offset by pos
+	return readerPointer->content + pos;
 }
 
 

@@ -752,7 +752,9 @@ phonon_byte readerGetFlags(ReaderPointer const readerPointer) {
 phonon_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Updates the histogram */
-
+	if (!readerPointer)
+		return READER_ERROR;
+		
 	phonon_intg histogramTotal;
 	for  (int i=0; i< NCHAR; i++){
 		if(readerPointer->histogram[i] != 0)

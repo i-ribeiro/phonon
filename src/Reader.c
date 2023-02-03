@@ -754,7 +754,7 @@ phonon_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Updates the histogram */
 	if (!readerPointer)
 		return READER_ERROR;
-		
+
 	phonon_intg histogramTotal;
 	for  (int i=0; i< NCHAR; i++){
 		if(readerPointer->histogram[i] != 0)
@@ -779,7 +779,10 @@ phonon_intg readerShowStat(ReaderPointer const readerPointer) {
 phonon_intg readerNumErrors(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Updates the histogram */
-	return 0;
+	if (!readerPointer)
+		return READER_ERROR;
+		
+	return readerPointer->numReaderErrors;
 }
 
 /*

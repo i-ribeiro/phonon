@@ -755,7 +755,7 @@ phonon_intg readerShowStat(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return READER_ERROR;
 
-	phonon_intg histogramTotal;
+	phonon_intg histogramTotal = 0;
 	for  (int i=0; i< NCHAR; i++){
 		if(readerPointer->histogram[i] != 0)
 		 histogramTotal +=1;

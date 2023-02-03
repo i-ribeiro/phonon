@@ -376,7 +376,7 @@ phonon_intg readerPrint(ReaderPointer const readerPointer) {
 
 		// end loop if invalid char encountered
 		if ( charValid(c = readerGetChar(readerPointer)) )
-			break;
+	    	break;
 
 		printf("%c", c);
 		cont++;
@@ -526,8 +526,9 @@ phonon_char readerGetChar(ReaderPointer const readerPointer) {
 	if (!readerPointer							// ...nullptr
 		|| !readerPointer->content				// ...^
 		|| readerPointer->position.read < 0		// ...below lower bound
-		|| readerPointer->position.read)		// ...above upper bound
-		return (phonon_char) READER_ERROR;
+		|| readerPointer->position.read			// ...above upper bound
+			> readerPointer->size)
+		return (phonon_char)READER_ERROR;
 
 	// set EOB flag and return terminator if read meets or exceeds write
 	if (readerPointer->position.read >= readerPointer->position.wrte) {

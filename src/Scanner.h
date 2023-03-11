@@ -92,32 +92,32 @@ typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
 /* TO_DO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
-	julius_intg codeType;      /* integer attributes accessor */
+	phonon_intg codeType;      /* integer attributes accessor */
 	AriOperator arithmeticOperator;		/* arithmetic operator attribute code */
 	RelOperator relationalOperator;		/* relational operator attribute code */
 	LogOperator logicalOperator;		/* logical operator attribute code */
 	EofOperator seofType;				/* source-end-of-file attribute code */
-	julius_intg intValue;						/* integer literal attribute (value) */
-	julius_intg keywordIndex;					/* keyword index in the keyword table */
-	julius_intg contentString;				/* string literal offset from the beginning of the string literal buffer (stringLiteralTable->content) */
-	julius_real floatValue;					/* floating-point literal attribute (value) */
-	julius_char idLexeme[VID_LEN + 1];		/* variable identifier token attribute */
-	julius_char errLexeme[ERR_LEN + 1];		/* error token attribite */
+	phonon_intg intValue;						/* integer literal attribute (value) */
+	phonon_intg keywordIndex;					/* keyword index in the keyword table */
+	phonon_intg contentString;				/* string literal offset from the beginning of the string literal buffer (stringLiteralTable->content) */
+	phonon_real floatValue;					/* floating-point literal attribute (value) */
+	phonon_char idLexeme[VID_LEN + 1];		/* variable identifier token attribute */
+	phonon_char errLexeme[ERR_LEN + 1];		/* error token attribite */
 } TokenAttribute;
 
 /* TO_DO: Should be used if no symbol table is implemented */
 typedef struct idAttibutes {
-	julius_byte flags;			/* Flags information */
+	phonon_byte flags;			/* Flags information */
 	union {
-		julius_intg intValue;				/* Integer value */
-		julius_real floatValue;			/* Float value */
-		julius_char* stringContent;		/* String value */
+		phonon_intg intValue;				/* Integer value */
+		phonon_real floatValue;			/* Float value */
+		phonon_char* stringContent;		/* String value */
 	} values;
 } IdAttibutes;
 
 /* Token declaration */
 typedef struct Token {
-	julius_intg code;				/* token code */
+	phonon_intg code;				/* token code */
 	TokenAttribute attribute;	/* token attribute */
 	IdAttibutes   idAttribute;	/* not used in this scanner implementation - for further use */
 } Token;
@@ -152,7 +152,7 @@ typedef struct Token {
 #define TABLE_COLUMNS 7
 
 /* TO_DO: Transition table - type of states defined in separate table */
-static julius_intg transitionTable[][TABLE_COLUMNS] = {
+static phonon_intg transitionTable[][TABLE_COLUMNS] = {
 	/*[A-z], [0-9],    _,    &,    ', SEOF, other
 	   L(0),  D(1), U(2), M(3), Q(4), E(5),  O(6) */
 	{     1,  ESNR, ESNR, ESNR,    4, ESWR, ESNR}, // S0: NOAS
@@ -171,7 +171,7 @@ static julius_intg transitionTable[][TABLE_COLUMNS] = {
 #define FSWR	2		/* accepting state with retract */
 
 /* TO_DO: Define list of acceptable states */
-static julius_intg stateType[] = {
+static phonon_intg stateType[] = {
 	NOFS, /* 00 */
 	NOFS, /* 01 */
 	FSNR, /* 02 (MID) - Methods */
@@ -189,11 +189,11 @@ TO_DO: Adjust your functions'definitions
 */
 
 /* Static (local) function  prototypes */
-julius_intg startScanner(ReaderPointer psc_buf);
-Token tokenizer(julius_void);
-static julius_intg nextClass(julius_char c);				/* character class function */
-static julius_intg nextState(julius_intg, julius_char);		/* state machine function */
-julius_void printToken(Token t);
+phonon_intg startScanner(ReaderPointer psc_buf);
+Token tokenizer(phonon_void);
+static phonon_intg nextClass(phonon_char c);				/* character class function */
+static phonon_intg nextState(phonon_intg, phonon_char);		/* state machine function */
+phonon_void printToken(Token t);
 
 /*
 -------------------------------------------------
@@ -202,14 +202,14 @@ Automata definitions
 */
 
 /* TO_DO: Pointer to function (of one char * argument) returning Token */
-typedef Token(*PTR_ACCFUN)(julius_char* lexeme);
+typedef Token(*PTR_ACCFUN)(phonon_char* lexeme);
 
 /* Declare accepting states functions */
-Token funcSL	(julius_char lexeme[]);
-Token funcID	(julius_char lexeme[]);
-Token funcKEY	(julius_char lexeme[]);
-Token funcErr	(julius_char lexeme[]);
-Token funcIL	(julius_char lexeme[]);
+Token funcSL	(phonon_char lexeme[]);
+Token funcID	(phonon_char lexeme[]);
+Token funcKEY	(phonon_char lexeme[]);
+Token funcErr	(phonon_char lexeme[]);
+Token funcIL	(phonon_char lexeme[]);
 
 /* 
  * Accepting function (action) callback table (array) definition 
@@ -238,7 +238,7 @@ Language keywords
 #define KWT_SIZE 10
 
 /* TO_DO: Define the list of keywords */
-static julius_char* keywordTable[KWT_SIZE] = {
+static phonon_char* keywordTable[KWT_SIZE] = {
 	"data",
 	"code",
 	"int",
@@ -261,12 +261,12 @@ static julius_char* keywordTable[KWT_SIZE] = {
 
 /* TO_DO: Should be used if no symbol table is implemented */
 typedef struct languageAttributes {
-	julius_char indentationCharType;
-	julius_intg indentationCurrentPos;
+	phonon_char indentationCharType;
+	phonon_intg indentationCurrentPos;
 	/* TO_DO: Include any extra attribute to be used in your scanner (OPTIONAL and FREE) */
 } LanguageAttributes;
 
 /* Number of errors */
-julius_intg numScannerErrors;
+phonon_intg numScannerErrors;
 
 #endif

@@ -140,8 +140,9 @@ typedef struct Token {
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
 #define CHRCOL2 '_'
-#define CHRCOL3 '&'
-#define CHRCOL4 '\''
+#define CHRCOL3 '.'
+#define CHRCOL4 '\"'
+#define CHRCOL6 '\n'
 
 /* These constants will be used on VID / MID function */
 #define MNIDPOSTFIX '.'
@@ -243,16 +244,16 @@ Language keywords
 
 /* TO_DO: Define the list of keywords */
 static phonon_char* keywordTable[KWT_SIZE] = {
-	"data",
-	"code",
-	"int",
-	"real",
-	"string",
-	"if",
-	"then",
-	"else",
 	"while",
-	"do"
+	"if",
+	"else",
+	"return",
+	"void",
+	"out",
+	"in",
+	"float",
+	"int",
+	"bool"
 };
 
 /* About indentation (useful for positional languages (ex: Python, Cobol) */

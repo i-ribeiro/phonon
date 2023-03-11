@@ -218,12 +218,12 @@ Token tokenizer(phonon_void) {
 			lexStart = readerGetPosRead(sourceBuffer) - 1;
 			readerSetMark(sourceBuffer, lexStart);
 			int pos = 0;
-			while (stateType[state] == NOFS) {
+			while (stateType[state] == NOAS) {
 				c = readerGetChar(sourceBuffer);
 				state = nextState(state, c);
 				pos++;
 			}
-			if (stateType[state] == FSWR)
+			if (stateType[state] == ASWR)
 				readerRetract(sourceBuffer);
 			lexEnd = readerGetPosRead(sourceBuffer);
 			lexLength = lexEnd - lexStart;
@@ -342,7 +342,7 @@ phonon_intg nextClass(phonon_char c) {
   */
   /* TO_DO: Adjust the function for IL */
 
-Token funcIL(phonon_char lexeme[]) {
+Token funcNL(phonon_char lexeme[]) {
 	Token currentToken = { 0 };
 	phonon_long tlong;
 	if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
@@ -376,7 +376,7 @@ Token funcIL(phonon_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for ID */
 
-Token funcID(phonon_char lexeme[]) {
+Token funcMNID(phonon_char lexeme[]) {
 	Token currentToken = { 0 };
 	size_t length = strlen(lexeme);
 	phonon_char lastch = lexeme[length - 1];

@@ -104,10 +104,8 @@ Main functions signatures
 ------------------------------------------------------------
 */
 phonon_intg mainReader(phonon_intg argc, phonon_char** argv);
-/*
-julius_intg mainScanner(julius_intg argc, julius_char** argv);
-julius_intg mainParser(julius_intg argc, julius_char** argv);
-*/
+phonon_intg mainScanner(phonon_intg argc, phonon_char** argv);
+/* julius_intg mainParser(julius_intg argc, julius_char** argv); */
 phonon_void printLogo();
 
 #endif

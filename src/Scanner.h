@@ -228,8 +228,8 @@ static PTR_ACCFUN finalStateTable[] = {
 	funcKEY,	/* KEY  [03] - Keywords */
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] - String Literal */
-	funcErr,	/* NOAS [06]  */
-	funcErr		/* ERR2 [07] - Retract */
+	NULL,		/* NOAS [06]  */
+	funcNL		/* NL   [07] - Retract */
 };
 
 /*

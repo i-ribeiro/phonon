@@ -73,12 +73,14 @@
 enum TOKENS {
 	ERR_T,		/*  0: Error token */
 	MNID_T,		/*  1: Method name identifier token (start: &) */
-	STR_T,		/*  2: String literal token */
+	VID_T,		/*  2: Variable Id*/
+	SL_T,		/*  2: String literal token */
+	NL_T,		/*  3: Number literal token */
 	LPR_T,		/*  3: Left parenthesis token */
 	RPR_T,		/*  4: Right parenthesis token */
 	LBR_T,		/*  5: Left brace token */
 	RBR_T,		/*  6: Right brace token */
-	KW_T,		/*  7: Keyword token */
+	KEY_T,		/*  7: Keyword token */
 	EOS_T,		/*  8: End of statement (semicolon) */
 	RTE_T,		/*  9: Run-time error token */
 	INL_T,		/* 10: Run-time error token */
@@ -155,14 +157,14 @@ typedef struct Token {
 /* TO_DO: Transition table - type of states defined in separate table */
 static phonon_intg transitionTable[][TABLE_COLUMNS] = {
 	/*[A-z], [0-9],    _,    &,    ', SEOF, other
-	   L(0),  D(1), U(2), M(3), Q(4), E(5),  O(6) */
-	{     1,  ESNR, ESNR, ESNR,    4, ESWR, ESNR}, // S0: NOAS
-	{     1,     1,    1,    2, ESWR, ESWR,    3}, // S1: NOAS
+	   L(0),  D(1), U(2), M(3), Q(4), O(5), N(6) */
+	{     1,  	6, ESNR, ESNR,    4, ESNR, ESNR}, // S0: NOAS
+	{     1,     1,    1,    2, ESNR, 	3,    3}, // S1: NOAS
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S2: ASNR (MVID)
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S3: ASWR (KEY)
-	{     4,     4,    4,    4,    5, ESWR,    4}, // S4: NOAS
+	{     4,     4,    4,    4,    5, 	4,    ESNR}, // S4: NOAS
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S5: ASNR (SL)
-	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S6: ASNR (ES)
+	{     7,     6,    7, ESNR, ESNR,    7,   7}, // S6: ASNR (ES)
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}  // S7: ASWR (ER)
 };
 

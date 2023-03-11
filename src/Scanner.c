@@ -431,7 +431,7 @@ Token funcSL(phonon_char lexeme[]) {
 		errorNumber = RTE_CODE;
 		return currentToken;
 	}
-	currentToken.code = STR_T;
+	currentToken.code = SL_T;
 	return currentToken;
 }
 
@@ -451,7 +451,7 @@ Token funcKEY(phonon_char lexeme[]) {
 		if (!strcmp(lexeme, &keywordTable[j][0]))
 			kwindex = j;
 	if (kwindex != -1) {
-		currentToken.code = KW_T;
+		currentToken.code = KEY_T;
 		currentToken.attribute.codeType = kwindex;
 	}
 	else {
@@ -526,7 +526,7 @@ phonon_void printToken(Token t) {
 	case MNID_T:
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
-	case STR_T:
+	case SL_T:
 		printf("STR_T\t\t%d\t ", (phonon_intg)t.attribute.codeType);
 		printf("%s\n", readerGetContent(stringLiteralTable, (phonon_intg)t.attribute.codeType));
 		break;
@@ -542,7 +542,7 @@ phonon_void printToken(Token t) {
 	case RBR_T:
 		printf("RBR_T\n");
 		break;
-	case KW_T:
+	case KEY_T:
 		printf("KW_T\t\t%s\n", keywordTable[t.attribute.codeType]);
 		break;
 	case EOS_T:

@@ -182,7 +182,7 @@ Token tokenizer(phonon_void) {
 			currentToken.code = RBR_T;
 			return currentToken;
 		/* Comments */
-		case '#':
+		case '^':
 			newc = readerGetChar(sourceBuffer);
 			do {
 				c = readerGetChar(sourceBuffer);
@@ -193,7 +193,7 @@ Token tokenizer(phonon_void) {
 				else if (c == '\n') {
 					line++;
 				}
-			} while (c != '#' && c != CHARSEOF0 && c != CHARSEOF255);
+			} while (c != '^' && c != CHARSEOF0 && c != CHARSEOF255);
 			break;
 		/* Cases for END OF FILE */
 		case CHARSEOF0:
@@ -382,7 +382,7 @@ Token funcMNID(phonon_char lexeme[]) {
 	phonon_char lastch = lexeme[length - 1];
 	phonon_intg isID = PHONON_FALSE;
 	switch (lastch) {
-		case MNIDPREFIX:
+		case MNIDPOSTFIX:
 			currentToken.code = MNID_T;
 			isID = PHONON_TRUE;
 			break;

@@ -169,20 +169,21 @@ static phonon_intg transitionTable[][TABLE_COLUMNS] = {
 };
 
 /* Define accepting states types */
-#define NOFS	0		/* not accepting state */
-#define FSNR	1		/* accepting state with no retract */
-#define FSWR	2		/* accepting state with retract */
+#define NOAS	0		/* not accepting state */
+#define ASNR	1		/* accepting state with no retract */
+#define ASWR	2		/* accepting state with retract */
+
 
 /* TO_DO: Define list of acceptable states */
 static phonon_intg stateType[] = {
-	NOFS, /* 00 */
-	NOFS, /* 01 */
-	FSNR, /* 02 (MID) - Methods */
-	FSWR, /* 03 (KEY) */
-	NOFS, /* 04 */
-	FSNR, /* 05 (SL) */
-	FSNR, /* 06 (Err1 - no retract) */
-	FSWR  /* 07 (Err2 - retract) */
+	NOAS, /* 00 */
+	NOAS, /* 01 */
+	ASNR, /* 02 (MNID) - Methods */
+	ASWR, /* 03 (KEY) */
+	NOAS, /* 04 */
+	ASNR, /* 05 (SL) */
+	NOAS, /* 06 */
+	ASNR  /* 07 (NL) */
 };
 
 /*
@@ -209,10 +210,10 @@ typedef Token(*PTR_ACCFUN)(phonon_char* lexeme);
 
 /* Declare accepting states functions */
 Token funcSL	(phonon_char lexeme[]);
-Token funcID	(phonon_char lexeme[]);
+Token funcMNID	(phonon_char lexeme[]);
 Token funcKEY	(phonon_char lexeme[]);
 Token funcErr	(phonon_char lexeme[]);
-Token funcIL	(phonon_char lexeme[]);
+Token funcNL	(phonon_char lexeme[]);
 
 /* 
  * Accepting function (action) callback table (array) definition 
@@ -221,13 +222,13 @@ Token funcIL	(phonon_char lexeme[]);
 
 /* TO_DO: Define final state table */
 static PTR_ACCFUN finalStateTable[] = {
-	NULL,		/* -    [00] */
-	NULL,		/* -    [01] */
-	funcID,		/* MNID	[02] - Methods */
+	NULL,		/* NOAS [00] */
+	NULL,		/* NOAS	[01] */
+	funcMNID,	/* MNID	[02] - Methods */
 	funcKEY,	/* KEY  [03] - Keywords */
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] - String Literal */
-	funcErr,	/* ERR1 [06] - No retract */
+	funcErr,	/* NOAS [06]  */
 	funcErr		/* ERR2 [07] - Retract */
 };
 

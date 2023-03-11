@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Winter, 2023
-* Author: TO_DO
+* Author: Isaac Ribeiro, Hilary Johnson
 * Professors: Paulo Sousa
 ************************************************************
 

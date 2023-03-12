@@ -335,6 +335,9 @@ phonon_intg nextClass(phonon_char c) {
 	case CHRCOL6:
 		val = 6;
 		break;
+	case CHRCOL7:
+		val = 7;
+		break;
 	case CHARSEOF0:
 	case CHARSEOF255:
 		val = 5;
@@ -372,12 +375,39 @@ Token funcNL(phonon_char lexeme[]) {
 	else {
 		tlong = atol(lexeme);
 		if (tlong >= 0 && tlong <= SHRT_MAX) {
-			currentToken.code = NL_T;
+			currentToken.code = IL_T;
 			currentToken.attribute.intValue = (phonon_intg)tlong;
 		}
 		else {
 			currentToken = (*finalStateTable[ESNR])(lexeme);
 		}
+	}
+	return currentToken;
+}
+
+
+/*
+ ************************************************************
+ * Acceptance State Function RL
+ *		Function responsible to identify RL (real literals).
+ * - It is necessary respect the limit (ex: 32-byte integer in C).
+ * - In the case of larger lexemes, error shoul be returned.
+ * - Only first ERR_LEN characters are accepted and eventually,
+ *   additional three dots (...) should be put in the output.
+ ***********************************************************
+ */
+ /* TO_DO: Adjust the function for IL */
+
+Token funcRL(phonon_char lexeme[]) {
+	Token currentToken = { 0 };
+	phonon_real tReal;
+	if (lexeme[0] != '\0' && strlen(lexeme) > REAL_LEN) {
+		currentToken = (*finalStateTable[ESNR])(lexeme);
+	}
+	else {
+		tReal = atof(lexeme);
+		currentToken.code = REA_T;
+		currentToken.attribute.floatValue = (phonon_real)tReal;
 	}
 	return currentToken;
 }
@@ -577,8 +607,11 @@ phonon_void printToken(Token t) {
 		printf("STR_T\t\t%d\t ", (phonon_intg)t.attribute.codeType);
 		printf("%s\n", readerGetContent(stringLiteralTable, (phonon_intg)t.attribute.codeType));
 		break;
-	case NL_T:
-		printf("NL_T\t\t%d\n", (phonon_intg)t.attribute.intValue);
+	case IL_T:
+		printf("IL_T\t\t%d\n", (phonon_intg)t.attribute.intValue);
+		break;
+	case REA_T:
+		printf("REA_T\t\t%f\n", (phonon_real)t.attribute.floatValue);
 		break;
 	case LPR_T:
 		printf("LPR_T\t\t(\n");

@@ -348,7 +348,7 @@ phonon_intg nextClass(phonon_char c) {
 		else if (isdigit(c))
 			val = 1;
 		else
-			val = 6;
+			val = 5;
 	}
 	return val;
 }

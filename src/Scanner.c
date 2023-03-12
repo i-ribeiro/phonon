@@ -181,6 +181,24 @@ Token tokenizer(phonon_void) {
 		case '}':
 			currentToken.code = RBR_T;
 			return currentToken;
+		case '=':
+			currentToken.code = ASS_T;
+			return currentToken;
+		case ',':
+			currentToken.code = COM_T;
+			return currentToken;
+		case '+':
+			currentToken.code = ADD_T;
+			return currentToken;
+		case '-':
+			currentToken.code = SUB_T;
+			return currentToken;
+		case '*':
+			currentToken.code = MUL_T;
+			return currentToken;
+		case '/':
+			currentToken.code = DIV_T;
+			return currentToken;
 		/* Comments */
 		case '^':
 			newc = readerGetChar(sourceBuffer);
@@ -314,6 +332,9 @@ phonon_intg nextClass(phonon_char c) {
 	case CHRCOL4:
 		val = 4;
 		break;
+	case CHRCOL6:
+		val = 6;
+		break;
 	case CHARSEOF0:
 	case CHARSEOF255:
 		val = 5;
@@ -351,7 +372,7 @@ Token funcNL(phonon_char lexeme[]) {
 	else {
 		tlong = atol(lexeme);
 		if (tlong >= 0 && tlong <= SHRT_MAX) {
-			currentToken.code = INL_T;
+			currentToken.code = NL_T;
 			currentToken.attribute.intValue = (phonon_intg)tlong;
 		}
 		else {
@@ -382,7 +403,7 @@ Token funcMNID(phonon_char lexeme[]) {
 	phonon_char lastch = lexeme[length - 1];
 	phonon_intg isID = PHONON_FALSE;
 	switch (lastch) {
-		case MNIDPOSTFIX:
+		case MNIDPOSTFIX:				// method ID
 			currentToken.code = MNID_T;
 			isID = PHONON_TRUE;
 			break;
@@ -455,11 +476,34 @@ Token funcKEY(phonon_char lexeme[]) {
 		currentToken.attribute.codeType = kwindex;
 	}
 	else {
-		currentToken = funcErr(lexeme);
+		currentToken = funcVID(lexeme);
 	}
 	return currentToken;
 }
 
+
+/*
+ ************************************************************
+ * Acceptance State Function ID
+ *		In this function, the pattern for IDs must be recognized.
+ *		Since keywords obey the same pattern, is required to test if
+ *		the current lexeme matches with KW from language.
+ *	- Remember to respect the limit defined for lexemes (VID_LEN) and
+ *	  set the lexeme to the corresponding attribute (vidLexeme).
+ *    Remember to end each token with the \0.
+ *  - Suggestion: Use "strncpy" function.
+ ***********************************************************
+ */
+ /* TO_DO: Adjust the function for ID */
+
+Token funcVID(phonon_char lexeme[]) {
+	Token currentToken = { 0 };
+	size_t length = strlen(lexeme);
+	currentToken.code = VID_T;
+	strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
+	currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
+	return currentToken;
+}
 
 /*
 ************************************************************
@@ -523,6 +567,9 @@ phonon_void printToken(Token t) {
 	case SEOF_T:
 		printf("SEOF_T\t\t%d\t\n", t.attribute.seofType);
 		break;
+	case VID_T:
+		printf("VID_T\t\t%s\n", t.attribute.idLexeme);
+		break;
 	case MNID_T:
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
@@ -530,23 +577,44 @@ phonon_void printToken(Token t) {
 		printf("STR_T\t\t%d\t ", (phonon_intg)t.attribute.codeType);
 		printf("%s\n", readerGetContent(stringLiteralTable, (phonon_intg)t.attribute.codeType));
 		break;
+	case NL_T:
+		printf("NL_T\t\t%d\n", (phonon_intg)t.attribute.intValue);
+		break;
 	case LPR_T:
-		printf("LPR_T\n");
+		printf("LPR_T\t\t(\n");
 		break;
 	case RPR_T:
-		printf("RPR_T\n");
+		printf("RPR_T\t\t)\n");
 		break;
 	case LBR_T:
-		printf("LBR_T\n");
+		printf("LBR_T\t\t{\n");
 		break;
 	case RBR_T:
-		printf("RBR_T\n");
+		printf("RBR_T\t\t}\n");
+		break;
+	case ASS_T:
+		printf("ASS_T\t\t=\n");
+		break;
+	case ADD_T:
+		printf("ADD_T\t\t+\n");
+		break;
+	case SUB_T:
+		printf("SUB_T\t\t-\n");
+		break;
+	case MUL_T:
+		printf("MUL_T\t\t*\n");
+		break;
+	case DIV_T:
+		printf("DIV_T\t\t+\n");
+		break;
+	case COM_T:
+		printf("COM_T\t\t,\n");
 		break;
 	case KEY_T:
 		printf("KW_T\t\t%s\n", keywordTable[t.attribute.codeType]);
 		break;
 	case EOS_T:
-		printf("EOS_T\n");
+		printf("EOS_T\t\t;\n");
 		break;
 	default:
 		//numScannerErrors++;

@@ -66,6 +66,7 @@
 #define VID_LEN 20  /* variable identifier length */
 #define ERR_LEN 40  /* error message length */
 #define NUM_LEN 5   /* maximum number of digits for IL */
+#define REAL_LEN 10  /* maximum number of digits for RL */
 
 #define RTE_CODE 1  /* Value for run-time error */
 
@@ -75,22 +76,23 @@ enum TOKENS {
 	MNID_T,		/*  1: Method name identifier token (end: .) */
 	VID_T,		/*  2: Variable Id*/
 	SL_T,		/*  3: String literal token */
-	NL_T,		/*  4: Number literal token */
-	LPR_T,		/*  5: Left parenthesis token */
-	RPR_T,		/*  6: Right parenthesis token */
-	LBR_T,		/*  7: Left brace token */
-	RBR_T,		/*  8: Right brace token */
-	ASS_T,		/*  9: Assignment token */
-	ADD_T,		/* 10: Addition token */
-	SUB_T,		/* 11: Subtraction token */
-	MUL_T,		/* 12: Multiplication token */
-	DIV_T,		/* 13: Division token */
-	COM_T,		/* 14: Comma token */
-	KEY_T,		/* 15: Keyword token */
-	EOS_T,		/* 16: End of statement (semicolon) */
-	RTE_T,		/* 17: Run-time error token */
-	INL_T,		/* 18: Run-time error token */
-	SEOF_T		/* 19: Source end-of-file token */
+	IL_T,		/*  4: Number literal token */
+	REA_T,		/*  5: Real literal token */
+	LPR_T,		/*  6: Left parenthesis token */
+	RPR_T,		/*  7: Right parenthesis token */
+	LBR_T,		/*  8: Left brace token */
+	RBR_T,		/*  9: Right brace token */
+	ASS_T,		/* 10: Assignment token */
+	ADD_T,		/* 11: Addition token */
+	SUB_T,		/* 12: Subtraction token */
+	MUL_T,		/* 13: Multiplication token */
+	DIV_T,		/* 14: Division token */
+	COM_T,		/* 15: Comma token */
+	KEY_T,		/* 16: Keyword token */
+	EOS_T,		/* 17: End of statement (semicolon) */
+	RTE_T,		/* 18: Run-time error token */
+	INL_T,		/* 19: Run-time error token */
+	SEOF_T		/* 20: Source end-of-file token */
 };
 
 /* TO_DO: Operators token attributes */
@@ -146,12 +148,16 @@ typedef struct Token {
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
 #define CHRCOL2 '_'
-#define CHRCOL3 '.'
+#define CHRCOL3 '$'
 #define CHRCOL4 '\"'
 #define CHRCOL6 '\n'
+#define CHRCOL7 '.'
 
 /* These constants will be used on VID / MID function */
-#define MNIDPOSTFIX '.'
+#define MNIDPOSTFIX '$'
+
+/* Separator for REAL numbers, eg. 3.14 */
+#define REAL_SEP '.'
 
 /* TO_DO: Error states and illegal state */
 #define FS		100		/* Illegal state */
@@ -159,20 +165,22 @@ typedef struct Token {
 #define ESWR	7		/* Error state with retract */
 
  /* TO_DO: State transition table definition */
-#define TABLE_COLUMNS 7
+#define TABLE_COLUMNS 8
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static phonon_intg transitionTable[][TABLE_COLUMNS] = {
-	/*[A-z], [0-9],    _,    &,    ', SEOF, other
-	   L(0),  D(1), U(2), M(3), Q(4), O(5), N(6) */
-	{     1,  	6, ESNR, ESNR,    4, ESNR, ESNR}, // S0: NOAS
-	{     1,     1,    1,    2, ESNR, 	3,    3}, // S1: NOAS
-	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S2: ASNR (MVID)
-	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S3: ASWR (KEY)
-	{     4,     4,    4,    4,    5, 	4,    ESNR}, // S4: NOAS
-	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}, // S5: ASNR (SL)
-	{     7,     6,    7, ESNR, ESNR,    7,   7}, // S6: ASNR (ES)
-	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}  // S7: ASWR (ER)
+	/*[A-z], [0-9],    _,    &,    ',other,   \n,	   .
+	   L(0),  D(1), U(2), M(3), Q(4), O(5), N(6),	R(7) */
+	{     1,  	6, ESNR, ESNR,    4, ESNR, ESNR,	ESNR	},	// S0: NOAS
+	{     1,     1,    1,    2, ESNR, 	 3,    3,	ESNR	},	// S1: NOAS
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S2: ASNR (MVID)
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S3: ASWR (KEY)
+	{     4,     4,    4,    4,    5, 	 4, ESNR,	4		},	// S4: NOAS
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S5: ASNR (SL)
+	{     7,     6,    7, ESNR, ESNR,    7,    7,	8		},	// S6: NOAS
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S7: ASWR (NL)
+	{	  9,	 8,	   9, ESNR, ESNR,	 9,	   9, ESNR		},	// S8: NOAS
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		}	// S9: ASWR (Rl)
 };
 
 /* Define accepting states types */
@@ -190,7 +198,9 @@ static phonon_intg stateType[] = {
 	NOAS, /* 04 */
 	ASNR, /* 05 (SL) */
 	NOAS, /* 06 */
-	ASNR  /* 07 (NL) */
+	ASWR, /* 07 (NL) */
+	NOAS, /* 08 */
+	ASWR, /* 09 (RL) */
 };
 
 /*
@@ -222,6 +232,7 @@ Token funcKEY	(phonon_char lexeme[]);
 Token funcVID	(phonon_char lexeme[]);
 Token funcErr	(phonon_char lexeme[]);
 Token funcNL	(phonon_char lexeme[]);
+Token funcRL	(phonon_char lexeme[]);
 
 /* 
  * Accepting function (action) callback table (array) definition 
@@ -237,7 +248,9 @@ static PTR_ACCFUN finalStateTable[] = {
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] - String Literal */
 	funcErr,	/* NOAS [06]  */
-	funcNL		/* NL   [07] - Retract */
+	funcNL,		/* NL   [07] - Retract */
+	NULL,		/* NL   [07] */
+	funcRL		/* RL   [08] - Retract */
 };
 
 /*

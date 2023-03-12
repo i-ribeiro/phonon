@@ -72,19 +72,25 @@
 /* TO_DO: Define Token codes - Create your token classes */
 enum TOKENS {
 	ERR_T,		/*  0: Error token */
-	MNID_T,		/*  1: Method name identifier token (start: &) */
+	MNID_T,		/*  1: Method name identifier token (end: .) */
 	VID_T,		/*  2: Variable Id*/
-	SL_T,		/*  2: String literal token */
-	NL_T,		/*  3: Number literal token */
-	LPR_T,		/*  3: Left parenthesis token */
-	RPR_T,		/*  4: Right parenthesis token */
-	LBR_T,		/*  5: Left brace token */
-	RBR_T,		/*  6: Right brace token */
-	KEY_T,		/*  7: Keyword token */
-	EOS_T,		/*  8: End of statement (semicolon) */
-	RTE_T,		/*  9: Run-time error token */
-	INL_T,		/* 10: Run-time error token */
-	SEOF_T		/* 11: Source end-of-file token */
+	SL_T,		/*  3: String literal token */
+	NL_T,		/*  4: Number literal token */
+	LPR_T,		/*  5: Left parenthesis token */
+	RPR_T,		/*  6: Right parenthesis token */
+	LBR_T,		/*  7: Left brace token */
+	RBR_T,		/*  8: Right brace token */
+	ASS_T,		/*  9: Assignment token */
+	ADD_T,		/* 10: Addition token */
+	SUB_T,		/* 11: Subtraction token */
+	MUL_T,		/* 12: Multiplication token */
+	DIV_T,		/* 13: Division token */
+	COM_T,		/* 14: Comma token */
+	KEY_T,		/* 15: Keyword token */
+	EOS_T,		/* 16: End of statement (semicolon) */
+	RTE_T,		/* 17: Run-time error token */
+	INL_T,		/* 18: Run-time error token */
+	SEOF_T		/* 19: Source end-of-file token */
 };
 
 /* TO_DO: Operators token attributes */
@@ -213,6 +219,7 @@ typedef Token(*PTR_ACCFUN)(phonon_char* lexeme);
 Token funcSL	(phonon_char lexeme[]);
 Token funcMNID	(phonon_char lexeme[]);
 Token funcKEY	(phonon_char lexeme[]);
+Token funcVID	(phonon_char lexeme[]);
 Token funcErr	(phonon_char lexeme[]);
 Token funcNL	(phonon_char lexeme[]);
 
@@ -229,7 +236,7 @@ static PTR_ACCFUN finalStateTable[] = {
 	funcKEY,	/* KEY  [03] - Keywords */
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] - String Literal */
-	NULL,		/* NOAS [06]  */
+	funcErr,	/* NOAS [06]  */
 	funcNL		/* NL   [07] - Retract */
 };
 

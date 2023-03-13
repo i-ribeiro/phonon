@@ -169,13 +169,13 @@ typedef struct Token {
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static phonon_intg transitionTable[][TABLE_COLUMNS] = {
-	/*[A-z], [0-9],    _,    &,    ',other,   \n,	   .
+	/*[A-z], [0-9],    _,    $,    ',other,   \n,	.
 	   L(0),  D(1), U(2), M(3), Q(4), O(5), N(6),	R(7) */
 	{     1,  	6, ESNR, ESNR,    4, ESNR, ESNR,	ESNR	},	// S0: NOAS
 	{     1,     1,    1,    2, ESNR, 	 3,    3,	ESNR	},	// S1: NOAS
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S2: ASNR (MVID)
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S3: ASWR (KEY)
-	{     4,     4,    4,    4,    5, 	 4, ESNR,	4		},	// S4: NOAS
+	{     4,     4,    4,    4,    5, 	 4,    4,	4		},	// S4: NOAS
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S5: ASNR (SL)
 	{     7,     6,    7, ESNR, ESNR,    7,    7,	8		},	// S6: NOAS
 	{    FS,    FS,   FS,   FS,   FS,   FS,   FS,	FS		},	// S7: ASWR (NL)
@@ -200,7 +200,7 @@ static phonon_intg stateType[] = {
 	NOAS, /* 06 */
 	ASWR, /* 07 (NL) */
 	NOAS, /* 08 */
-	ASWR, /* 09 (RL) */
+	ASWR  /* 09 (RL) */
 };
 
 /*
@@ -231,7 +231,7 @@ Token funcMNID	(phonon_char lexeme[]);
 Token funcKEY	(phonon_char lexeme[]);
 Token funcVID	(phonon_char lexeme[]);
 Token funcErr	(phonon_char lexeme[]);
-Token funcNL	(phonon_char lexeme[]);
+Token funcIL	(phonon_char lexeme[]);
 Token funcRL	(phonon_char lexeme[]);
 
 /* 
@@ -248,7 +248,7 @@ static PTR_ACCFUN finalStateTable[] = {
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] - String Literal */
 	funcErr,	/* NOAS [06]  */
-	funcNL,		/* NL   [07] - Retract */
+	funcIL,		/* NL   [07] - Retract */
 	NULL,		/* NL   [07] */
 	funcRL		/* RL   [08] - Retract */
 };

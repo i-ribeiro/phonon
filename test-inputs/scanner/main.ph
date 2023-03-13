@@ -7,4 +7,7 @@ void mainAudio$(out float a, in float t) {
 	^ t = 440.0; a = 0.0; ^
 	a = saw$(t*440.0);
 	print$("this is a string!");
+
+
+	4$
 }

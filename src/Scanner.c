@@ -202,6 +202,7 @@ Token tokenizer(phonon_void) {
 		/* Comments */
 		case '^':
 			newc = readerGetChar(sourceBuffer);
+			if (newc == '^') break;
 			do {
 				c = readerGetChar(sourceBuffer);
 				if (c == CHARSEOF0 || c == CHARSEOF255) {
@@ -214,6 +215,7 @@ Token tokenizer(phonon_void) {
 			} while (c != '^' && c != CHARSEOF0 && c != CHARSEOF255);
 			break;
 		/* Cases for END OF FILE */
+		case -1:
 		case CHARSEOF0:
 			currentToken.code = SEOF_T;
 			currentToken.attribute.seofType = SEOF_0;
@@ -366,7 +368,7 @@ phonon_intg nextClass(phonon_char c) {
   */
   /* TO_DO: Adjust the function for IL */
 
-Token funcNL(phonon_char lexeme[]) {
+Token funcIL(phonon_char lexeme[]) {
 	Token currentToken = { 0 };
 	phonon_long tlong;
 	if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
@@ -405,7 +407,7 @@ Token funcRL(phonon_char lexeme[]) {
 		currentToken = (*finalStateTable[ESNR])(lexeme);
 	}
 	else {
-		tReal = atof(lexeme);
+		tReal = (phonon_real)atof(lexeme);
 		currentToken.code = REA_T;
 		currentToken.attribute.floatValue = (phonon_real)tReal;
 	}

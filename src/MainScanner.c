@@ -159,8 +159,10 @@ phonon_intg mainScanner(phonon_intg argc, phonon_char** argv) {
 	/* Load source file into input buffer  */
 	printf("Reading file %s ....Please wait\n", argv[2]);
 	loadSize = readerLoad(sourceBuffer, fileHandler);
-	if (loadSize == READER_ERROR)
+	if (loadSize == READER_ERROR) {
 		printScannerError("%s%s", argv[0], ": Error in loading buffer.");
+		exit(EXIT_FAILURE);
+	}
 
 	/* Close source file */
 	fclose(fileHandler);

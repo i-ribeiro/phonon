@@ -179,6 +179,9 @@ phonon_void program() {
 	switch (lookahead.code) {
 	case MNID_T:
 		if (strncmp(lookahead.attribute.idLexeme, LANG_MAIN, 5) == 0) {
+
+			// start main function
+			matchToken(KEY_T, KW_void);
 			matchToken(MNID_T, NO_ATTR);
 			matchToken(LPR_T, NO_ATTR);
 			matchToken(KEY_T, KW_in);
@@ -188,7 +191,11 @@ phonon_void program() {
 			matchToken(VID_T, NO_ATTR);
 			matchToken(RPR_T, NO_ATTR);
 			matchToken(LBR_T, NO_ATTR);
-			// .. code 
+
+			// main function body
+			optionalStatements();
+
+			// end main function
 			matchToken(RBR_T, NO_ATTR);
 			break;
 		}
@@ -237,14 +244,9 @@ phonon_void optionalStatements() {
 			break;
 		}
 	case VID_T:
-		if(){
-
-		break;	
-		}
-	case SL_T:
-	case IL_T:
 	case KEY_T:
-
+		statements();
+		break;
 	default:
 		; // Empty
 	}
@@ -301,11 +303,16 @@ phonon_void statement() {
 		default:
 			printError();
 		}
+		// TO_DO: Handle KW as start of statement
 		break;
 	case MNID_T:
 		if (strncmp(lookahead.attribute.idLexeme, LANG_WRTE, 6) == 0) {
 			outputStatement();
 		}
+		// TO_DO: Handle method ID as start of statement
+		break;
+	case VID_T:
+		// TO_DO: Handle variable ID as start of statement
 		break;
 	default:
 		printError();

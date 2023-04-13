@@ -100,8 +100,6 @@ phonon_void syncErrorHandler(phonon_intg);
 phonon_void printError();
 
 /* TO_DO: Place ALL non-terminal function declarations */
-phonon_void codeSession();
-phonon_void dataSession();
 phonon_void optVarListDeclarations();
 phonon_void optionalStatements();
 phonon_void outputStatement();

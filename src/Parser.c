@@ -83,7 +83,7 @@ phonon_void startParser() {
 phonon_void matchToken(phonon_intg tokenCode, phonon_intg tokenAttribute) {
 	phonon_intg matchFlag = 1;
 	switch (lookahead.code) {
-	case KW_T:
+	case KEY_T:
 		if (lookahead.attribute.codeType != tokenAttribute)
 			matchFlag = 0;
 	default:
@@ -142,10 +142,10 @@ phonon_void printError() {
 	case MNID_T:
 		printf("MNID_T:\t\t%s\t\n", t.attribute.idLexeme);
 		break;
-	case STR_T:
+	case SL_T:
 		printf("STR_T: %s\n", readerGetContent(stringLiteralTable, t.attribute.contentString));
 		break;
-	case KW_T:
+	case KEY_T:
 		printf("KW_T: %s\n", keywordTable[t.attribute.codeType]);
 		break;
 	case LPR_T:
@@ -176,19 +176,19 @@ phonon_void printError() {
  ***********************************************************
  */
 phonon_void program() {
+	matchToken(KEY_T, KW_void);
 	switch (lookahead.code) {
 	case MNID_T:
 		if (strncmp(lookahead.attribute.idLexeme, LANG_MAIN, 5) == 0) {
 
 			// start main function
-			matchToken(KEY_T, KW_void);
 			matchToken(MNID_T, NO_ATTR);
 			matchToken(LPR_T, NO_ATTR);
 			matchToken(KEY_T, KW_in);
-			matchToken(VID_T, NO_ATTR);
+			matchToken(VID_T, KW_real);
 			matchToken(COM_T, NO_ATTR);
 			matchToken(KEY_T, KW_out);
-			matchToken(VID_T, NO_ATTR);
+			matchToken(VID_T, KW_real);
 			matchToken(RPR_T, NO_ATTR);
 			matchToken(LBR_T, NO_ATTR);
 
@@ -298,7 +298,7 @@ phonon_void statementsPrime() {
  */
 phonon_void statement() {
 	switch (lookahead.code) {
-	case KW_T:
+	case KEY_T:
 		switch (lookahead.attribute.codeType) {
 		default:
 			printError();
@@ -318,6 +318,29 @@ phonon_void statement() {
 		printError();
 	}
 	printf("%s%s\n", STR_LANGNAME, ": Statement parsed");
+}
+
+phonon_void expression() {
+	switch (lookahead.code) {
+	case KEY_T:
+	case VID_T:
+	case SL_T:
+	case IL_T:
+	case REA_T:
+		break;
+	}
+}
+
+phonon_void primaryArithmeticExpression() {
+	int attr = NO_ATTR;
+	switch (lookahead.code) {
+	case KEY_T:
+		//switch (lookahead.attribute == )
+		break;
+	default: 
+		printError();
+		break;
+	}
 }
 
 /*
@@ -345,8 +368,8 @@ phonon_void outputStatement() {
  */
 phonon_void outputVariableList() {
 	switch (lookahead.code) {
-	case STR_T:
-		matchToken(STR_T, NO_ATTR);
+	case SL_T:
+		matchToken(SL_T, NO_ATTR);
 		break;
 	default:
 		;

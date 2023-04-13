@@ -90,7 +90,7 @@ TO_DO: Global vars definitions
 /* Global objects - variables */
 /* This buffer is used as a repository for string literals. */
 extern ReaderPointer stringLiteralTable;	/* String literal table */
-phonon_intg line;								/* Current line number of the source code */
+phonon_intg line;							/* Current line number of the source code */
 extern phonon_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
 
 extern phonon_intg stateType[];

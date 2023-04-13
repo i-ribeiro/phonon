@@ -232,8 +232,7 @@ phonon_void optVarListDeclarations() {
 phonon_void optionalStatements() {
 	switch (lookahead.code) {
 	case MNID_T:
-		if ((strncmp(lookahead.attribute.idLexeme, LANG_WRTE, 6) == 0) ||
-			(strncmp(lookahead.attribute.idLexeme, LANG_READ, 6) == 0)) {
+		if (strncmp(lookahead.attribute.idLexeme, LANG_WRTE, 6) == 0) {
 			statements();
 			break;
 		}

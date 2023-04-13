@@ -200,21 +200,6 @@ phonon_void program() {
 
 /*
  ************************************************************
- * dataSession
- * BNF: <dataSession> -> data { <opt_varlist_declarations> }
- * FIRST(<program>)= {KW_T (KW_data)}.
- ***********************************************************
- */
-phonon_void dataSession() {
-	matchToken(KW_T, KW_data);
-	matchToken(LBR_T, NO_ATTR);
-	optVarListDeclarations();
-	matchToken(RBR_T, NO_ATTR);
-	printf("%s%s\n", STR_LANGNAME, ": Data Session parsed");
-}
-
-/*
- ************************************************************
  * Optional Var List Declarations
  * BNF: <opt_varlist_declarations> -> <varlist_declarations> | e
  * FIRST(<opt_varlist_declarations>) = { e, KW_T (KW_int), KW_T (KW_real), KW_T (KW_string)}.
@@ -226,21 +211,6 @@ phonon_void optVarListDeclarations() {
 		; // Empty
 	}
 	printf("%s%s\n", STR_LANGNAME, ": Optional Variable List Declarations parsed");
-}
-
-/*
- ************************************************************
- * codeSession statement
- * BNF: <codeSession> -> code { <opt_statements> }
- * FIRST(<codeSession>)= {KW_T (KW_code)}.
- ***********************************************************
- */
-phonon_void codeSession() {
-	matchToken(KW_T, KW_code);
-	matchToken(LBR_T, NO_ATTR);
-	optionalStatements();
-	matchToken(RBR_T, NO_ATTR);
-	printf("%s%s\n", STR_LANGNAME, ": Code Session parsed");
 }
 
 /* TO_DO: Continue the development (all non-terminal functions) */

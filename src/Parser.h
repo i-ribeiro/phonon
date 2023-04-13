@@ -73,9 +73,8 @@ extern phonon_char* keywordTable[];
 phonon_intg syntaxErrorNumber = 0;
 
 #define STR_LANGNAME	"phonon"
-#define LANG_WRTE		"print&"
-#define LANG_READ		"input&"
-#define LANG_MAIN		"main&"
+#define LANG_WRTE		"print$"
+#define LANG_MAIN		"main$"
 
 /* TO_DO: Create ALL constants for keywords (sequence given in table.h) */
 

@@ -261,6 +261,15 @@ phonon_void optionalStatements() {
 			statements();
 			break;
 		}
+	case VID_T:
+		if(){
+
+		break;	
+		}
+	case SL_T:
+	case IL_T:
+	case KEY_T:
+
 	default:
 		; // Empty
 	}

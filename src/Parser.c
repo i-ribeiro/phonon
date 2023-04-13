@@ -343,6 +343,32 @@ phonon_void primaryArithmeticExpression() {
 	}
 }
 
+phonon_void additive_Arithmetic_Expression(){
+
+switch(lookahead.code){
+
+case ADD_T:
+switch (lookahead.attribute.arithmeticOperator){
+
+case ADD_T:
+case SUB_T:
+	match(ADD_T, lookahead.attribute.arithmeticOperator);
+	//multiplication()
+	additive_Arithmetic_Expression();
+	return;
+
+	default:
+	return;
+}
+	return;
+
+	default:
+	return;
+}
+	
+
+}
+
 /*
  ************************************************************
  * Output Statement

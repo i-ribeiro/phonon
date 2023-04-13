@@ -85,6 +85,7 @@ enum KEYWORDS {
 	KW_data,
 	KW_code,
 	KW_int,
+	KW_T,STR_T,
 	KW_real,
 	KW_string,
 	KW_if,

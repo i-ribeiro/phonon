@@ -180,9 +180,15 @@ phonon_void program() {
 	case MNID_T:
 		if (strncmp(lookahead.attribute.idLexeme, LANG_MAIN, 5) == 0) {
 			matchToken(MNID_T, NO_ATTR);
+			matchToken(LPR_T, NO_ATTR);
+			matchToken(KEY_T, KW_in);
+			matchToken(VID_T, NO_ATTR);
+			matchToken(COM_T, NO_ATTR);
+			matchToken(KEY_T, KW_out);
+			matchToken(VID_T, NO_ATTR);
+			matchToken(RPR_T, NO_ATTR);
 			matchToken(LBR_T, NO_ATTR);
-			dataSession();
-			codeSession();
+			// .. code 
 			matchToken(RBR_T, NO_ATTR);
 			break;
 		}

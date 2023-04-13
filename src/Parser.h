@@ -81,17 +81,16 @@ phonon_intg syntaxErrorNumber = 0;
 /* Constants */
 enum KEYWORDS {
 	NO_ATTR = -1,
-	KW_int,
-	KW_T,STR_T,
-	KW_real,
-	KW_string,
+	KW_while,
 	KW_if,
 	KW_else,
-	KW_while,
 	KW_return,
 	KW_void,
 	KW_out,
-	KW_in
+	KW_in,
+	KW_real,
+	KW_int,
+	KW_bool
 };
 
 /* Function definitions */
